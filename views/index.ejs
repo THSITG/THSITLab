@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh" ng-app="THSITLab">
+  <head>
+    <meta charset="utf-8">
+    <title><%= title %></title>
+    <% include imports %>
+  </head>
+  <body layout="row" ng-controller="AppCtrl">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="main" md-is-locked-open="$mdMedia('gt-md')">
+      <md-toolbar class="md-primary md-whiteframe-z4">
+        <div class="md-toolbar-tools">
+          <h3 id="brand"><%= title %></h3>
+        </div>
+      </md-toolbar>
+      <md-content layout-padding ng-controller="NavMain">
+        <md-button class="md-raised md-primary md-hue-2"  ng-click="close()" hide-gt-md>Close</md-button>
+      </md-content>
+    </md-sidenav>
+
+    <div layout="column" flex layout-fill>
+      <md-toolbar class="md-primary md-whiteframe-z4">
+        <div class="md-toolbar-tools">
+          <paper-icon-button hide-gt-md bind-polymer icon="menu" ng-click="openSidenav('main')" id="menuBtn"></paper-icon-button>
+          {{ pageTitle }}
+        </div>
+      </md-toolbar>
+
+      <md-content class="cards" layout-padding>
+        <md-card ng-repeat="n in [1,2,3,4,5,6,7,8,9,10]">
+          <md-card-content>
+            <h2 class="md-title">欢迎!</h2>
+            <p>这是 THSITLab 的主页</p>
+          </md-card-content>
+        </md-card>
+      </md-content>
+    </div>
+  </body>
+</html>
