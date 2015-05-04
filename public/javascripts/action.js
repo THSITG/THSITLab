@@ -17,7 +17,7 @@ var app = angular.module("THSITLab", [
     });
 });
 
-app.controller('AppCtrl', function($scope,$timeout,$mdSidenav) {
+app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
   $scope.pageTitle = "主页";
   $scope.openSidenav = function(menuId) {
     $mdSidenav('main')
@@ -26,8 +26,16 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav) {
         console.log('Main sidebar toggled');
       });
   };
-  $scope.userForm = function() {
-    console.log("login form");
+  $scope.userForm = function(e) {
+    $mdDialog.show({
+      controller: userFormController,
+      templateUrl: '/tmpl/static/user_form.tmpl.html',
+      targetEvent: e
+    }).then(function(answer) {
+      //TODO: Login logic
+    }, function() {
+      // Login Canceled
+    });
   };
 }).controller("NavMain", function($scope,$timeout,$mdSidenav) {
   $scope.close = function() {
@@ -38,3 +46,16 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav) {
       });
   }
 });
+
+function userFormController($scope, $mdDialog) {
+  $scope.hide = function() {
+    $mdDialog.hide();
+  };
+
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
+  $scope.answer = function(answer) {
+    $mdDialog.hide(answer);
+  };
+}

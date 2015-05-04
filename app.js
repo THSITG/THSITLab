@@ -29,6 +29,14 @@ app.use('/bower',express.static('bower_components', {
   index: "false",
   maxAge: "1d"
 }));
+app.use('/tmpl/static',express.static('public/tmpl', {
+  dotfiles: "ignore",
+  index: "false",
+  maxAge: "1d"
+}));
+
+// TODO: Non-static templates
+
 // app.use('/users', users);
 
 // catch 404 and forward to error handler
