@@ -58,4 +58,17 @@ function userFormController($scope, $mdDialog) {
   $scope.answer = function(answer) {
     $mdDialog.hide(answer);
   };
+
+  $scope.state = "登陆";
+  $scope.isRegister = false;
+  
+  $scope.stateChange = function(newState) {
+    if(newState) $scope.state = "注册";
+    else $scope.state = "登陆";
+  };
+
+  $scope.user = {
+    name: "",
+    passwd: ""
+  };
 }
