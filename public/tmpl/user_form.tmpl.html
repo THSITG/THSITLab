@@ -1,24 +1,34 @@
 <md-dialog class="login-dialog" aria-label="登陆表单">
-  <md-subheader class="md-sticky-no-effect md-primary">{{state}}</md-subheader>
-  <md-dialog-content class="sticky-container">
-    <md-list>
-      <md-list-item>
-        <p class="register-label">新用户?</p>
-        <md-switch ng-model="isRegister" aria-label="Register" ng-change="stateChange(isRegister)"></md-switch>
-      </md-list-item>
-    </md-list>
+  <form>
+    <div class="lab-dialog-header" layout="row">
+      <span class="lab-dialog-title">
+        {{state}}
+      </span>
+      <span flex></span>
+      <md-button ng-click="answer('cancel')" class="lab-dialog-close md-icon-button">
+        <core-icon icon="close"></core-icon>
+      </md-button>
+    </div>
+    <md-dialog-content class="sticky-container">
+      <md-list>
+        <md-list-item>
+          <p class="register-label">新用户?</p>
+          <md-switch ng-model="isRegister" aria-label="Register" ng-change="stateChange(isRegister)"></md-switch>
+        </md-list-item>
+      </md-list>
 
-    <md-input-container>
-      <label>用户名</label>
-      <input ng-model="user.name">
-    </md-input-container>
-    <md-input-container>
-      <label>密码</label>
-      <input ng-model="user.passwd">
-    </md-input-container>
-  </md-dialog-content>
-  <div class="md-actions" layout="row">
-    <md-button ng-click="answer('action')" class="md-primary md-raised">{{state}}</md-button>
-    <md-button ng-click="answer('cancel')" class="md-raised">取消</md-button>
-  </div>
+      <md-input-container>
+        <label>用户名</label>
+        <input ng-model="user.name">
+      </md-input-container>
+      <md-input-container>
+        <label>密码</label>
+        <input ng-model="user.passwd">
+      </md-input-container>
+    </md-dialog-content>
+    <div class="md-actions" layout="row">
+      <md-button type="submit" ng-click="answer('action')" class="md-primary md-raised">{{state}}</md-button>
+      <md-button ng-click="answer('cancel')" class="md-raised">取消</md-button>
+    </div>
+  </form>
 </md-dialog>
