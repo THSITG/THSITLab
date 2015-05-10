@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, user-scalable=no, target-densitydpi=device-dpi">
+    <link rel="icon" href="/icons-img/logo.ico">
     <title><%= title %></title>
     <% include imports %>
   </head>
@@ -10,7 +11,10 @@
     <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="main" md-is-locked-open="$mdMedia('gt-md')">
       <md-toolbar class="md-primary md-whiteframe-z4">
         <div class="md-toolbar-tools">
-          <h3 id="brand"><%= title %></h3>
+          <h3 id="brand" class="md-title">
+            <core-icon icon="lab:logo"></core-icon>
+            <%= title %>
+          </h3>
         </div>
       </md-toolbar>
       <md-content layout-padding ng-controller="NavMain">
