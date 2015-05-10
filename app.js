@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-// var users = require('./routes/users');
+var user = require('./routes/user');
+var project = require('./routes/project');
 
 var app = express();
 
@@ -24,6 +25,8 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+app.use('/user',user);
+app.use('/project',project);
 app.use('/bower',express.static('bower_components', {
   dotfiles: "ignore",
   index: "false",
