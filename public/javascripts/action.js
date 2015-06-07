@@ -65,20 +65,16 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
       var wrapperWidth = undefined;
       var displace = 0;
 
-      var $leftFab = $element.children("md-button.left");
-      var $rightFab = $element.children("md-button.right");
+      var $leftFab = $element.find(".slider-control.left");
+      var $rightFab = $element.find(".slider-control.right");
       var $content = $element.find(".slider-content");
 
       var leftHidden = false;
       var rightHidden = false;
 
       var update = function() {
-        console.log(displace);
-
         if(displace + contentWidth <= wrapperWidth) displace = wrapperWidth - contentWidth;
         if(displace >= 0) displace = 0; // If the slider is not full, defaults to left
-        console.log(displace);
-        console.log("CONTENT "+contentWidth);
 
         $content.css("transform","translateX("+displace+"px)");
 
@@ -87,7 +83,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
           $leftFab.toggleClass("hidden");
         }
 
-        if((displace + contentWidth <= wrapperWidth) != leftHidden) {
+        if((displace + contentWidth <= wrapperWidth) != rightHidden) {
           rightHidden = !rightHidden;
           $rightFab.toggleClass("hidden");
         }
