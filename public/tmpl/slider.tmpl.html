@@ -1,6 +1,10 @@
 <div class="slider">
-  <md-button class="md-fab md-primary slider-control left" ng-click="shift('left')"></md-button>
-  <md-button class="md-fab md-primary slider-control right" ng-click="shift('right')"></md-button>
+  <md-button class="md-fab md-primary slider-control left" ng-click="shift('left')">
+    <md-icon md-font-library="material-icons md-48">keyboard_arrow_left</md-icon>
+  </md-button>
+  <md-button class="md-fab md-primary slider-control right" ng-click="shift('right')">
+    <md-icon md-font-library="material-icons md-48">keyboard_arrow_right</md-icon>
+  </md-button>
   <div class="slider-content">
     <span ng-transclude></span>
     <span class="clearfix"></span>
