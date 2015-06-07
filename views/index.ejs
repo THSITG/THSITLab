@@ -22,7 +22,7 @@
       </md-content>
     </md-sidenav>
 
-    <div layout="column" flex layout-fill md-swipe-right="swipeRight($event)">
+    <md-content layout="column" flex layout-fill md-swipe-right="swipeRight($event)" class="md-primary md-hue-1">
       <md-toolbar class="md-primary md-whiteframe-z4">
         <div class="md-toolbar-tools">
           <paper-icon-button hide-gt-md bind-polymer icon="menu" ng-click="toggleSidenav('main')" id="menuBtn"></paper-icon-button>
@@ -35,13 +35,37 @@
       </md-toolbar>
 
       <md-content class="cards md-primary md-hue-1" layout-padding>
-        <md-card ng-repeat="n in [1,2,3,4,5,6,7,8,9,10]">
+        <md-card>
+          <style>
+            .banner-title {
+              padding: 16px 32px;
+              text-align: left;
+              margin: 0;
+              width: 100%;
+              box-sizing: border-box;
+            }
+          </style>
+
+          <div class="ratio ratio-16-9" style="background-image: url('/images/index-banner.jpg'); background-size: cover;">
+            <div class="ratio-content image-scrim-bottom" layout="column" layout-align="end center">
+              <div class="banner-title" hide-sm show-gt-sm>
+                <div class="md-display-4">欢迎!</div>
+                <div class="md-display-2">这是 THSITLab 的主页</div>
+              </div>
+              <div class="banner-title" show-sm hide-gt-sm>
+                <div class="md-display-3">欢迎!</div>
+                <div class="md-headline">这是 THSITLab 的主页</div>
+              </div>
+            </div>
+          </div>
           <md-card-content>
-            <h2 class="md-title">欢迎!</h2>
-            <p>这是 THSITLab 的主页</p>
+            <h3 class="md-headline">谁会需要640KB以上的内存呢？<small style="float: right; color: rgba(0,0,0,0.26);"> —— 比尔 大门</small></h3>
           </md-card-content>
         </md-card>
+        <slider>
+          <md-card ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]">{{i}}</md-card>
+        </slider>
       </md-content>
-    </div>
+    </md-content>
   </body>
 </html>

@@ -53,6 +53,72 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         console.log('Main sidebar closed');
       });
   }
+}).directive("slider", function() {
+  return {
+    restrict: 'E',
+    transclude: true,
+    templateUrl: '/tmpl/slider.tmpl.html',
+    link: function(scope, element, attr) {
+      var $element = $(element[0]).children(".slider");;
+      var itemCount = undefined;
+      var contentWidth = undefined;
+      var wrapperWidth = undefined;
+      var displace = 0;
+
+      var $leftFab = $element.children("md-button.left");
+      var $rightFab = $element.children("md-button.right");
+      var $content = $element.find(".slider-content");
+
+      var leftHidden = false;
+      var rightHidden = false;
+
+      var update = function() {
+        console.log(displace);
+
+        if(displace + contentWidth <= wrapperWidth) displace = wrapperWidth - contentWidth;
+        if(displace >= 0) displace = 0; // If the slider is not full, defaults to left
+        console.log(displace);
+        console.log("CONTENT "+contentWidth);
+
+        $content.css("transform","translateX("+displace+"px)");
+
+        if((displace >= 0) != leftHidden) {
+          leftHidden = !leftHidden;
+          $leftFab.toggleClass("hidden");
+        }
+
+        if((displace + contentWidth <= wrapperWidth) != leftHidden) {
+          rightHidden = !rightHidden;
+          $rightFab.toggleClass("hidden");
+        }
+      }
+
+      scope.shift = function(direction) {
+        console.log("SHIFT");
+        //TODO: find a way to read the width when the page finishes loading
+        //Currently it returns 0
+        if(!wrapperWidth) {
+          itemCount = $element.find("[ng-transclude] > md-card").size();
+          contentWidth = itemCount * 160-32;
+          wrapperWidth = $element.width();
+          update();
+        }
+        //Shift to the first hidden card
+        if(direction == "right") {
+          displace = Math.ceil((displace - wrapperWidth-20)/160)*160;
+        } else {
+          displace = Math.ceil(displace/160)*160-128+wrapperWidth;
+        }
+
+        update();
+      };
+
+      $(window).resize(function(e) {
+        wrapperWidth = $element.width();
+        update();
+      });
+    }
+  }
 });
 
 function userFormController($scope, $mdDialog) {
