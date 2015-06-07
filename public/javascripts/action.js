@@ -16,7 +16,7 @@ var app = angular.module("THSITLab", [
     });
 
   $mdIconProvider
-    .icon('lab:logo', '/icons-img/logo.svg');
+    .icon('lab:logo', '/icons/logo.svg');
 });
 
 app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
