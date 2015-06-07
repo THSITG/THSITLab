@@ -25,7 +25,9 @@
     <md-content layout="column" flex layout-fill md-swipe-right="swipeRight($event)" class="md-primary md-hue-1">
       <md-toolbar class="md-primary md-whiteframe-z4">
         <div class="md-toolbar-tools">
-          <paper-icon-button hide-gt-md bind-polymer icon="menu" ng-click="toggleSidenav('main')" id="menuBtn"></paper-icon-button>
+          <md-button hide-gt-md ng-click="toggleSidenav('main')" id="menuBtn" class="md-icon-button">
+            <md-icon md-font-library="material-icons md-32">menu</md-icon>
+          </md-button>
           {{ pageTitle }}
 
           <span flex></span>
