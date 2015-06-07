@@ -1,7 +1,7 @@
 var app = angular.module("THSITLab", [
     'ngMaterial',
     'eee-c.angularBindPolymer'
-]).config(function($mdThemingProvider) {
+]).config(function($mdThemingProvider, $mdIconProvider) {
   $mdThemingProvider
     .theme('default')
     .primaryPalette('blue', {
@@ -15,6 +15,9 @@ var app = angular.module("THSITLab", [
       'hue-2': '800',
       'hue-3': '100'
     });
+
+  $mdIconProvider
+    .icon('lab:logo', '/icons-img/logo.svg');
 });
 
 app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
@@ -90,7 +93,6 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
       }
 
       scope.shift = function(direction) {
-        console.log("SHIFT");
         //TODO: find a way to read the width when the page finishes loading
         //Currently it returns 0
         if(!wrapperWidth) {
