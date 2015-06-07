@@ -19,13 +19,21 @@ var app = angular.module("THSITLab", [
 
 app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
   $scope.pageTitle = "主页";
-  $scope.openSidenav = function(menuId) {
-    $mdSidenav('main')
+
+  $scope.toggleSidenav = function(menuId) {
+    $mdSidenav(menuId)
       .toggle()
       .then(function() {
-        console.log('Main sidebar toggled');
+        console.log('sidebar toggled: '+menuId);
       });
   };
+
+  $scope.swipeRight = function(event) {
+    if(event.pointer.startX < window.innerWidth * 0.1) {
+      $scope.toggleSidenav('main');
+    }
+  };
+
   $scope.userForm = function(e) {
     $mdDialog.show({
       controller: userFormController,

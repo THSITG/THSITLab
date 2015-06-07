@@ -8,7 +8,7 @@
     <% include imports %>
   </head>
   <body layout="row" ng-controller="AppCtrl">
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="main" md-is-locked-open="$mdMedia('gt-md')">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="main" md-is-locked-open="$mdMedia('gt-md')" md-swipe-left="toggleSidenav('main')">
       <md-toolbar class="md-primary md-whiteframe-z4">
         <div class="md-toolbar-tools">
           <h3 id="brand" class="md-title">
@@ -22,10 +22,10 @@
       </md-content>
     </md-sidenav>
 
-    <div layout="column" flex layout-fill>
+    <div layout="column" flex layout-fill md-swipe-right="swipeRight($event)">
       <md-toolbar class="md-primary md-whiteframe-z4">
         <div class="md-toolbar-tools">
-          <paper-icon-button hide-gt-md bind-polymer icon="menu" ng-click="openSidenav('main')" id="menuBtn"></paper-icon-button>
+          <paper-icon-button hide-gt-md bind-polymer icon="menu" ng-click="toggleSidenav('main')" id="menuBtn"></paper-icon-button>
           {{ pageTitle }}
 
           <span flex></span>
