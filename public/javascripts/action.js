@@ -1,6 +1,5 @@
 var app = angular.module("THSITLab", [
-    'ngMaterial',
-    'eee-c.angularBindPolymer'
+    'ngMaterial'
 ]).config(function($mdThemingProvider, $mdIconProvider) {
   $mdThemingProvider
     .theme('default')
