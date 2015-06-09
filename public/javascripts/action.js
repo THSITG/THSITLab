@@ -92,14 +92,6 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
       }
 
       scope.shift = function(direction) {
-        //TODO: find a way to read the width when the page finishes loading
-        //Currently it returns 0
-        if(!wrapperWidth) {
-          itemCount = $element.find("[ng-transclude] > md-card").size();
-          contentWidth = itemCount * 160-32;
-          wrapperWidth = $element.width();
-          update();
-        }
         //Shift to the first hidden card
         if(direction == "right") {
           displace = Math.ceil((displace - wrapperWidth-20)/160)*160;
@@ -114,6 +106,13 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         wrapperWidth = $element.width();
         update();
       });
+
+      window.setTimeout(function() {
+        itemCount = $element.find("[ng-transclude] > md-card").size();
+        contentWidth = itemCount * 160-32;
+        wrapperWidth = $element.width();
+        update();
+      },0);
     }
   }
 });
