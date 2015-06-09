@@ -55,6 +55,22 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         console.log('Main sidebar closed');
       });
   }
+}).directive("expandable", function($compile) {
+  return {
+    restrict: 'C',
+    link: function(scope,element,attr) {
+      $(element).click(function(e) {
+        expandCard(this,attr.newTitle,attr.newContent,function(data) {
+          $(".cards").hide();
+          var newContainer = $($compile(data)({cards: ["A","B","C"]})).appendTo(".displayFrame");
+          console.log($compile(data)(angular.element("body").scope()));
+          window.setTimeout(function() {
+            newContainer.css("opacity","1");
+          },0);
+        });
+      });
+    }
+  }
 }).directive("slider", function() {
   return {
     restrict: 'E',
@@ -108,7 +124,8 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
       });
 
       window.setTimeout(function() {
-        itemCount = $element.find("[ng-transclude] > md-card").size();
+        items = $element.find("[ng-transclude] > md-card");
+        itemCount = items.size();
         contentWidth = itemCount * 160-32;
         wrapperWidth = $element.width();
         update();
@@ -141,4 +158,43 @@ function userFormController($scope, $mdDialog) {
     name: "",
     passwd: ""
   };
+}
+
+function expandCard(card,title,url,callback) {
+  var $card = $(card);
+  var cardOffset = $card.offset();
+  var cardWidth = $card.width();
+  var cardHeight = $card.height();
+
+  console.log(cardOffset);
+
+  var $newCard = $("<md-card>").addClass("expandable");
+
+  $newCard.appendTo(".displayFrame");
+
+  $newCard.css("width",cardWidth+"px");
+  $newCard.css("height",cardHeight+"px");
+  $newCard.css("top",cardOffset.top);
+  $newCard.css("left",cardOffset.left);
+  $newCard.addClass("expanding").addClass("md-default-theme");
+  window.setTimeout(function() {
+    $newCard.css("opacity", "1");
+  },0);
+
+  $card.addClass("md-whiteframe-z4");
+
+  window.setTimeout(function() {
+    $card.addClass("hidden");
+    $newCard.addClass("md-whiteframe-z4");
+    $newCard.css("width","100%");
+    $newCard.css("height","100%");
+    $newCard.css("top","0");
+    $newCard.css("left","0");
+    
+    angular.element("body").scope().pageTitle = title;
+
+    $.get(url).success(callback).fail(function(error) {
+      //TODO: process error
+    });
+  },500);
 }
