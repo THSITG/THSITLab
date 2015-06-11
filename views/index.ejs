@@ -36,43 +36,7 @@
         </div>
       </md-toolbar>
 
-      <md-content class="cards md-primary md-hue-1" layout-padding content-include="{{contentUrl}}">
-        <md-card>
-          <style>
-            .banner-title {
-              padding: 16px 32px;
-              text-align: left;
-              margin: 0;
-              width: 100%;
-              box-sizing: border-box;
-            }
-          </style>
-
-          <div class="ratio ratio-16-9" style="background-image: url('/images/index-banner.jpg'); background-size: cover;">
-            <div class="ratio-content image-scrim-bottom" layout="column" layout-align="end center">
-              <div class="banner-title" hide-sm show-gt-sm>
-                <div class="md-display-4">欢迎!</div>
-                <div class="md-display-2">这是 THSITLab 的主页</div>
-              </div>
-              <div class="banner-title" show-sm hide-gt-sm>
-                <div class="md-display-3">欢迎!</div>
-                <div class="md-headline">这是 THSITLab 的主页</div>
-              </div>
-            </div>
-          </div>
-          <md-card-content>
-            <h3 class="md-headline">谁会需要640KB以上的内存呢？<small style="float: right; color: rgba(0,0,0,0.26);"> —— 比尔 大门</small></h3>
-          </md-card-content>
-        </md-card>
-        <div class="slider-area">
-          <div class="md-headline slider-title">特色项目</div>
-          <slider>
-            <md-card class="expandable" new-title="Test Title" new-content="/content/test" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]">
-              <img class="slider-item-top" src="/icons/logo.svg"></img>
-              <div class="slider-item-content">Project {{i}}</div>
-            </md-card>
-          </slider>
-        </div>
+      <md-content class="cards md-primary md-hue-1" layout-padding content-include="{{contentUrl}}" content-callback="contentUpdated()">
       </md-content>
     </md-content>
   </body>

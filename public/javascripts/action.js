@@ -20,7 +20,12 @@ var app = angular.module("THSITLab", [
 });
 
 app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
-  $scope.pageTitle = "主页";
+
+  $(document).ready(function() {
+    $scope.pageTitle = "主页";
+    $scope.contentUrl = "/content/home";
+    $scope.$apply();
+  });
 
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId)
@@ -59,14 +64,54 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
   return {
     restrict: 'C',
     link: function(scope,element,attr) {
+      var callback = function() {
+        $(".overlap-card").css("opacity",0);
+        $timeout(function() {
+          $(".overlap-card").remove();
+        }, 500, false);
+      }
+
       $(element).click(function(e) {
-        expandCard(this,attr.newTitle,attr.newContent,function(data) {
-          $(".cards").html($compile(data)(scope));
-          $(".overlap-card").css("opacity",0);
-          $timeout(function() {
-            $(".overlap-card").remove();
-          }, 500, false);
-        });
+        var $card = $(this);
+        var cardOffset = $card.offset();
+        var cardWidth = $card.width();
+        var cardHeight = $card.height();
+
+        console.log(cardOffset);
+
+        var $newCard = $("<md-card>").addClass("expandable").addClass("overlap-card");
+
+        $newCard.appendTo(".displayFrame");
+
+        $newCard.css("width",cardWidth+"px");
+        $newCard.css("height",cardHeight+"px");
+        $newCard.css("top",cardOffset.top);
+        $newCard.css("left",cardOffset.left);
+        $newCard.addClass("expanding").addClass("md-default-theme");
+        window.setTimeout(function() {
+          $newCard.css("opacity", "1");
+        },0);
+
+        $card.addClass("md-whiteframe-z4");
+
+        window.setTimeout(function() {
+          $card.addClass("hidden");
+          $newCard.addClass("md-whiteframe-z4");
+          $newCard.css("width","100%");
+          $newCard.css("height","100%");
+          $newCard.css("top","0");
+          $newCard.css("left","0");
+          
+        },500);
+
+        window.setTimeout(function() {
+          var bodyScope=angular.element("body").scope();
+          bodyScope.pageTitle = attr.newTitle;
+          bodyScope.contentUrl = attr.newContent;
+          bodyScope.contentUpdated = callback;
+
+          bodyScope.$apply();
+        },1000);
       });
     }
   }
@@ -131,7 +176,36 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
       },0);
     }
   }
-});
+}).directive("contentInclude", ["$http", "$compile", function($http, $compile) {
+  return {
+    restrict: 'A',
+    scope: {
+      callback: '&contentCallback',
+      url: '@contentInclude'
+    },
+    link: function(scope,elem,attrs) {
+      window.setInterval(function() {
+        console.log(scope.url);
+      },1000);
+      scope.$watch("url", function(url) {
+        console.log("[Lab] Loading Content: "+url);
+        if(!url) return;
+        $http({method: 'GET', url: url, cache: true}).success(function(data) {
+          elem.html($compile(data)(angular.element("body").scope()));
+
+          try {
+            scope.callback();
+          } catch(e) {
+            console.error("[Lab] Callback Failed:");
+            console.error(e);
+          }
+        }).error(function(error) {
+          //TODO: process error
+        });
+      },true);
+    }
+  };
+}]);
 
 function userFormController($scope, $mdDialog) {
   $scope.hide = function() {
@@ -157,43 +231,4 @@ function userFormController($scope, $mdDialog) {
     name: "",
     passwd: ""
   };
-}
-
-function expandCard(card,title,url,callback) {
-  var $card = $(card);
-  var cardOffset = $card.offset();
-  var cardWidth = $card.width();
-  var cardHeight = $card.height();
-
-  console.log(cardOffset);
-
-  var $newCard = $("<md-card>").addClass("expandable").addClass("overlap-card");
-
-  $newCard.appendTo(".displayFrame");
-
-  $newCard.css("width",cardWidth+"px");
-  $newCard.css("height",cardHeight+"px");
-  $newCard.css("top",cardOffset.top);
-  $newCard.css("left",cardOffset.left);
-  $newCard.addClass("expanding").addClass("md-default-theme");
-  window.setTimeout(function() {
-    $newCard.css("opacity", "1");
-  },0);
-
-  $card.addClass("md-whiteframe-z4");
-
-  window.setTimeout(function() {
-    $card.addClass("hidden");
-    $newCard.addClass("md-whiteframe-z4");
-    $newCard.css("width","100%");
-    $newCard.css("height","100%");
-    $newCard.css("top","0");
-    $newCard.css("left","0");
-    
-    angular.element("body").scope().pageTitle = title;
-
-    $.get(url).success(callback).fail(function(error) {
-      //TODO: process error
-    });
-  },500);
 }
