@@ -6,8 +6,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'THSITLab' });
 });
 
-router.get('/test', function(req, res, next) {
-  res.render('test');
+router.get('/content/test', function(req, res, next) {
+  res.render('content/test');
+});
+
+router.get('/content/home', function(req, res, next) {
+  res.render('content/home');
 });
 
 module.exports = router;

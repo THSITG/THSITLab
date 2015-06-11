@@ -36,7 +36,7 @@
         </div>
       </md-toolbar>
 
-      <md-content class="cards md-primary md-hue-1" layout-padding>
+      <md-content class="cards md-primary md-hue-1" layout-padding content-include="{{contentUrl}}">
         <md-card>
           <style>
             .banner-title {
@@ -67,7 +67,7 @@
         <div class="slider-area">
           <div class="md-headline slider-title">特色项目</div>
           <slider>
-            <md-card class="expandable" new-title="Test Title" new-content="/test" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]">
+            <md-card class="expandable" new-title="Test Title" new-content="/content/test" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]">
               <img class="slider-item-top" src="/icons/logo.svg"></img>
               <div class="slider-item-content">Project {{i}}</div>
             </md-card>

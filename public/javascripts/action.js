@@ -55,23 +55,22 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         console.log('Main sidebar closed');
       });
   }
-}).directive("expandable", function($compile) {
+}).directive("expandable", ['$http','$compile', '$timeout', function($http,$compile, $timeout) {
   return {
     restrict: 'C',
     link: function(scope,element,attr) {
       $(element).click(function(e) {
         expandCard(this,attr.newTitle,attr.newContent,function(data) {
-          $(".cards").hide();
-          var newContainer = $($compile(data)({cards: ["A","B","C"]})).appendTo(".displayFrame");
-          console.log($compile(data)(angular.element("body").scope()));
-          window.setTimeout(function() {
-            newContainer.css("opacity","1");
-          },0);
+          $(".cards").html($compile(data)(scope));
+          $(".overlap-card").css("opacity",0);
+          $timeout(function() {
+            $(".overlap-card").remove();
+          }, 500, false);
         });
       });
     }
   }
-}).directive("slider", function() {
+}]).directive("slider", function() {
   return {
     restrict: 'E',
     transclude: true,
@@ -168,7 +167,7 @@ function expandCard(card,title,url,callback) {
 
   console.log(cardOffset);
 
-  var $newCard = $("<md-card>").addClass("expandable");
+  var $newCard = $("<md-card>").addClass("expandable").addClass("overlap-card");
 
   $newCard.appendTo(".displayFrame");
 
