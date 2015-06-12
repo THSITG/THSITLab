@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh" ng-app="THSITLab">
+<html lang="zh" ng-app="THSITLab" ng-controller="AppCtrl">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, user-scalable=no, target-densitydpi=device-dpi">
     <link rel="icon" href="/icons/logo.ico">
-    <title><%= title %></title>
+    <title ng-bind-template="{{pageTitle}} | THSITG">Loading -> THSITG</title>
     <% include imports %>
   </head>
-  <body layout="row" ng-controller="AppCtrl">
+  <body layout="row">
     <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="main" md-is-locked-open="$mdMedia('gt-md')" md-swipe-left="toggleSidenav('main')">
       <md-toolbar class="md-primary md-whiteframe-z4">
         <div class="md-toolbar-tools">
@@ -36,7 +36,7 @@
         </div>
       </md-toolbar>
 
-      <md-content class="cards md-primary md-hue-1" layout-padding content-include="/content/{{contentPath}}" content-callback="contentUpdated()">
+      <md-content class="cards md-primary md-hue-1" layout-padding content-include="{{contentPath}}" content-callback="contentUpdated()">
       </md-content>
     </md-content>
   </body>

@@ -64,7 +64,15 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
   return {
     restrict: 'C',
     link: function(scope,element,attr) {
-      var callback = function() {
+      var callback = function(path,title) {
+        // Push history
+        history.pushState({
+            currentPath: path,
+            currentTitle: title
+          },
+          "", // Ignore this parameter for right now
+          "/"+path);
+
         $(".overlap-card").css("opacity",0);
         $timeout(function() {
           $(".overlap-card").remove();
@@ -109,7 +117,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
           var bodyScope=angular.element("body").scope();
           bodyScope.pageTitle = attr.newTitle;
           bodyScope.contentPath = attr.newContent;
-          bodyScope.contentUpdated = callback;
+          bodyScope.contentUpdated = function() {callback(attr.newContent,attr.newTitle)};
 
           bodyScope.$apply();
         },1000);
@@ -182,17 +190,16 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
     restrict: 'A',
     scope: {
       callback: '&contentCallback',
-      url: '@contentInclude'
+      path: '@contentInclude'
     },
     link: function(scope,elem,attrs) {
-      window.setInterval(function() {
-        console.log(scope.url);
-      },1000);
-      scope.$watch("url", function(url) {
-        console.log("[Lab] Loading Content: "+url);
-        if(!url) return;
-        $http({method: 'GET', url: url, cache: true}).success(function(data) {
-          elem.html($compile(data)(angular.element("body").scope()));
+      scope.$watch("path", function(path) {
+        console.log("[Lab] Loading Content: "+path);
+        if((!path) || path== '') return;
+        $http({method: 'GET', url: '/content/'+path, cache: true}).success(function(data) {
+          var bodyScope = angular.element("body").scope();
+            
+          elem.html($compile(data)(bodyScope));
 
           try {
             scope.callback();
@@ -204,6 +211,24 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
           //TODO: process error
         });
       },true);
+
+      $(window).bind("popstate", function(e) {
+        var state = history.state;
+        if(state == null) { // To the front page
+          state = {
+            currentPath: "home",
+            currentTitle: "主页"
+          };
+        }
+        console.log(state);
+        var bodyScope = angular.element("body").scope();
+        if(state.currentPath) {
+          bodyScope.contentPath = state.currentPath;
+          bodyScope.contentUpdated = function() {} // TODO: Fade in/out
+        }
+        if(state.currentTitle) bodyScope.pageTitle = state.currentTitle;
+        bodyScope.$apply();
+      });
     }
   };
 }]);
