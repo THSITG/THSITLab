@@ -137,15 +137,13 @@ a {
   md-card {
     margin: 32px auto;
     max-width: 1100px;
+    display: block;
+    position: relative;
 
     md-card-content {
       padding: 16px 32px;
+      display: block;
     }
-  }
-
-  &.appendedContainer {
-    transition: opacity 0.5s ease-out;
-    opacity: 0;
   }
 }
 
@@ -291,7 +289,8 @@ md-card.expandable {
         left 0.5s ease-in-out,
         height 0.5s ease-in-out,
         width 0.5s ease-in-out,
-        opacity 0.5s ease-in;
+        opacity 0.5s ease-in,
+        background-color 0.5s ease-in-out;
 
     opacity: 0;
   }

@@ -28,9 +28,10 @@
 <div class="slider-area">
   <div class="md-headline slider-title">特色项目</div>
   <slider>
-    <md-card class="expandable" new-title="Test Title" new-content="/content/test" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]">
+    <md-card class="expandable" new-title="Test Title" new-content="test" ng-repeat="i in [1,2,3,4,5,6,7,8,9,10]" md-ink-ripple>
       <img class="slider-item-top" src="/icons/logo.svg"></img>
       <div class="slider-item-content">Project {{i}}</div>
+      <div class="md-ripple-container"></div>
     </md-card>
   </slider>
 </div>

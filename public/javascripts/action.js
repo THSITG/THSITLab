@@ -23,7 +23,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
 
   $(document).ready(function() {
     $scope.pageTitle = "主页";
-    $scope.contentUrl = "/content/home";
+    $scope.contentPath = "home";
     $scope.$apply();
   });
 
@@ -96,6 +96,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
 
         window.setTimeout(function() {
           $card.addClass("hidden");
+          $newCard.addClass("md-hue-1");
           $newCard.addClass("md-whiteframe-z4");
           $newCard.css("width","100%");
           $newCard.css("height","100%");
@@ -107,7 +108,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         window.setTimeout(function() {
           var bodyScope=angular.element("body").scope();
           bodyScope.pageTitle = attr.newTitle;
-          bodyScope.contentUrl = attr.newContent;
+          bodyScope.contentPath = attr.newContent;
           bodyScope.contentUpdated = callback;
 
           bodyScope.$apply();
