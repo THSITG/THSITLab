@@ -185,7 +185,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
       },0);
     }
   }
-}).directive("contentInclude", ["$http", "$compile", function($http, $compile) {
+}).directive("contentInclude", ["$http", "$compile", "$timeout", function($http, $compile, $timeout) {
   return {
     restrict: 'A',
     scope: {
@@ -223,8 +223,23 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         console.log(state);
         var bodyScope = angular.element("body").scope();
         if(state.currentPath) {
-          bodyScope.contentPath = state.currentPath;
-          bodyScope.contentUpdated = function() {} // TODO: Fade in/out
+          var overlap = $("<md-content>").addClass("md-default-theme").addClass("md-hue-1").addClass("history-overlap");
+
+          $timeout(function() {
+            bodyScope.contentPath = state.currentPath;
+            bodyScope.contentUpdated = function() {
+              overlap.removeClass("active");
+              window.setTimeout(function() {
+                overlap.remove();
+              },200);
+            }
+          },200);
+
+          overlap.appendTo(".displayFrame");
+
+          $timeout(function() {
+            overlap.addClass("active");
+          },10);
         }
         if(state.currentTitle) bodyScope.pageTitle = state.currentTitle;
         bodyScope.$apply();
