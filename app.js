@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var user = require('./routes/user');
 var project = require('./routes/project');
+var content = require('./routes/content');
 
 var app = express();
 
@@ -24,9 +25,9 @@ app.use(cookieParser());
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
 app.use('/user',user);
 app.use('/project',project);
+app.use('/content',content);
 app.use('/bower',express.static('bower_components', {
   dotfiles: "ignore",
   index: "false",
@@ -37,6 +38,8 @@ app.use('/tmpl/static',express.static('public/tmpl', {
   index: "false",
   maxAge: "1d"
 }));
+
+app.use('/', routes);
 
 // TODO: Non-static templates
 

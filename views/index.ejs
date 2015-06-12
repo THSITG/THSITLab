@@ -6,6 +6,12 @@
     <link rel="icon" href="/icons/logo.ico">
     <title ng-bind-template="{{pageTitle}} | THSITG">Loading -> THSITG</title>
     <% include imports %>
+
+    <script>
+    $(document).ready(function() {
+      angular.element("body").scope().contentPath = "<%= content %>";
+    });
+    </script>
   </head>
   <body layout="row">
     <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="main" md-is-locked-open="$mdMedia('gt-md')" md-swipe-left="toggleSidenav('main')">
@@ -13,7 +19,7 @@
         <div class="md-toolbar-tools">
           <h3 id="brand" class="md-title">
             <md-icon md-svg-icon="lab:logo"></md-icon>
-            <%= title %>
+            THSITLab
           </h3>
         </div>
       </md-toolbar>

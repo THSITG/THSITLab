@@ -1,17 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
+var titleMap = {
+  'home': "Homepage",
+  'test': "Test Title"
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'THSITLab' });
+  res.render('index', { content: 'home', title: titleMap['home']});
 });
 
-router.get('/content/test', function(req, res, next) {
-  res.render('content/test');
-});
-
-router.get('/content/home', function(req, res, next) {
-  res.render('content/home');
+router.get('/:content*?', function(req, res, next) {
+  var cont = req.param.content;
+  res.render('index', { content: cont, title: titleMap[cont]});
 });
 
 module.exports = router;
