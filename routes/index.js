@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:content*?', function(req, res, next) {
-  var cont = req.param.content;
+  var cont = req.params.content;
+  console.log(cont);
   res.render('index', { content: cont, title: titleMap[cont]});
 });
 

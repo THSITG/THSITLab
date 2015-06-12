@@ -20,13 +20,6 @@ var app = angular.module("THSITLab", [
 });
 
 app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
-
-  $(document).ready(function() {
-    $scope.pageTitle = "主页";
-    $scope.contentPath = "home";
-    $scope.$apply();
-  });
-
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId)
       .toggle()
