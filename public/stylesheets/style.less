@@ -284,13 +284,10 @@ md-card.expandable {
     margin: 0;
     position: fixed;
     cursor: default;
-    transition:
-        top 0.5s ease-in-out,
-        left 0.5s ease-in-out,
-        height 0.5s ease-in-out,
-        width 0.5s ease-in-out,
-        opacity 0.5s ease-in,
-        background-color 0.5s ease-in-out;
+    transition-property: top, left, height, width, opacity, background-color;
+    transition-duration: 0.5s, 0.5s, 0.5s, 0.5s, 0.5s, 0.15s;
+    transition-delay: 0, 0, 0, 0, 0, 0.35s;
+    transition-timing-function: ease-in-out, ease-in-out, ease-in-out, ease-in-out, ease-out, ease-in-out;
 
     opacity: 0;
   }
