@@ -89,13 +89,13 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         $newCard.css("top",cardOffset.top);
         $newCard.css("left",cardOffset.left);
         $newCard.addClass("expanding").addClass("md-default-theme");
-        window.setTimeout(function() {
-          $newCard.css("opacity", "1");
-        },0);
+
+        window.getComputedStyle($newCard[0]).opacity; //Get the style computed
+        $newCard.css("opacity", "1");
 
         $card.addClass("md-whiteframe-z4");
 
-        window.setTimeout(function() {
+        $timeout(function() {
           $card.addClass("hidden");
           $newCard.addClass("md-hue-1");
           $newCard.addClass("md-whiteframe-z4");
@@ -106,7 +106,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
           
         },500);
 
-        window.setTimeout(function() {
+        $timeout(function() {
           var bodyScope=angular.element("body").scope();
           bodyScope.pageTitle = attr.newTitle;
           bodyScope.contentPath = attr.newContent;
@@ -169,7 +169,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         update();
       });
 
-      window.setTimeout(function() {
+      $timeout(function() {
         items = $element.find("[ng-transclude] > md-card");
         itemCount = items.size();
         contentWidth = itemCount * 160-32;
@@ -222,7 +222,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
             bodyScope.contentPath = state.currentPath;
             bodyScope.contentUpdated = function() {
               overlap.removeClass("active");
-              window.setTimeout(function() {
+              $timeout(function() {
                 overlap.remove();
               },200);
             }
