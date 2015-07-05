@@ -117,7 +117,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
       });
     }
   }
-}]).directive("slider", function() {
+}]).directive("slider", ['$timeout', function($timeout) {
   return {
     restrict: 'E',
     transclude: true,
@@ -178,7 +178,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
       },0);
     }
   }
-}).directive("contentInclude", ["$http", "$compile", "$timeout", function($http, $compile, $timeout) {
+}]).directive("contentInclude", ["$http", "$compile", "$timeout", function($http, $compile, $timeout) {
   return {
     restrict: 'A',
     scope: {
