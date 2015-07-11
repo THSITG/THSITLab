@@ -46,6 +46,14 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
     });
   };
 }).controller("NavMain", function($scope,$timeout,$mdSidenav) {
+  //TODO: move to app scope
+  $scope.user = {
+    featuredImgUrl: "/images/test-background.jpg",
+    avatarUrl: "/images/test-avatar.jpg",
+    email: "circuitcoder0@gmail.com",
+    name: "刘晓义"
+  };
+
   $scope.close = function() {
     $mdSidenav('main')
       .close()

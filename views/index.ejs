@@ -16,7 +16,7 @@
   </head>
   <body layout="row">
     <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="main" md-is-locked-open="$mdMedia('gt-md')" md-swipe-left="toggleSidenav('main')">
-      <md-toolbar class="md-primary md-whiteframe-z4">
+      <md-toolbar class="md-primary md-whiteframe-z4" show-gt-md hide>
         <div class="md-toolbar-tools">
           <h3 id="brand" class="md-title">
             <md-icon md-svg-icon="lab:logo"></md-icon>
@@ -24,8 +24,15 @@
           </h3>
         </div>
       </md-toolbar>
-      <md-content layout-padding ng-controller="NavMain">
-        <md-button class="md-raised md-primary md-hue-2"  ng-click="close()" hide-gt-md>Close</md-button>
+      
+      <md-content ng-controller="NavMain">
+        <div class="user-section ratio ratio-16-9">
+          <div class="fade-img user-background ratio-content" style="background-image: url('{{user.featuredImgUrl}}');"></div>
+          <div class="image-scrim-bottom dark ratio-content">
+            <div class="fade-img user-avatar" style="background-image: url('{{user.avatarUrl}}');"></div>
+            <div class="user-info md-body-1">{{user.name}}<br>{{user.email}}</div>
+          </div>
+        </div>
       </md-content>
     </md-sidenav>
 
