@@ -51,8 +51,36 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
     featuredImgUrl: "/images/test-background.jpg",
     avatarUrl: "/images/test-avatar.jpg",
     email: "circuitcoder0@gmail.com",
-    name: "刘晓义"
+    name: "刘晓义",
+    projects: [
+      {
+        name: "THSITLab",
+        url: "lab",
+        logo: "school"
+      },
+      {
+        name: "Optime",
+        url: "optime",
+        logo: "timer"
+      }
+    ]
   };
+
+  $scope.openProject = function(url) {
+    console.log("pretend to open: "+url);
+  }
+
+  $scope.openSetting = function() {
+    console.log("pretend to open the setting page");
+  }
+
+  $scope.openProfile = function() {
+    console.log("pretend to open the profile page");
+  }
+
+  $scope.openAbout = function() {
+    console.log("pretend to open the about dialog");
+  }
 
   $scope.close = function() {
     $mdSidenav('main')

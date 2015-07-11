@@ -33,6 +33,29 @@
             <div class="user-info md-body-1">{{user.name}}<br>{{user.email}}</div>
           </div>
         </div>
+        <md-list>
+          <md-list-item ng-click="openProfile()">
+            <md-icon md-font-library="material-icons">face</md-icon>
+            <p>Profile</p>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-subheader>
+            My Projects
+          </md-subheader>
+          <md-list-item ng-repeat="project in user.projects" ng-click="openProject('{{project.url}}')">
+            <md-icon md-font-library="material-icons">{{project.logo}}</md-icon>
+            <p>{{project.name}}</p>
+          </md-list-item>
+          <md-divider></md-divider>
+          <md-list-item ng-click="openSetting()">
+            <md-icon md-font-library="material-icons">settings</md-icon>
+            <p>Settings</p>
+          </md-list-item>
+          <md-list-item ng-click="openAbout()">
+            <md-icon md-font-library="material-icons">announcement</md-icon>
+            <p>About</p>
+          </md-list-item>
+        </md-list>
       </md-content>
     </md-sidenav>
 
