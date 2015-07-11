@@ -197,6 +197,11 @@ a {
     opacity: 0.5;
     transform: scale(1);
     transition: opacity 0.2s ease-in-out, transform 0.2s ease-out;
+
+    /* For safari */
+    -webkit-transform: scale(1);
+    -webkit-transition: opacity 0.2s ease-in-out, -webkit-transform 0.2s ease-out;
+
     height: 64px;
     width: 64px;
 
@@ -218,12 +223,20 @@ a {
     &.hidden {
       transform: scale(0);
       transition: opacity 0.2s ease-in-out, transform 0.2s ease-in;
+
+      /* For safari */
+      -webkit-transform: scale(0);
+      -webkit-transition: opacity 0.2s ease-in-out, -webkit-transform 0.2s ease-in;
     }
   }
 
   .slider-content {
     transition: transform 0.2s ease-in-out;
     transform: translateX(0px);
+
+    /* For safari */
+    -webkit-transition: -webkit-transform 0.2s ease-in-out;
+    -webkit-transform: translateX(0px);
     display: inline-block;
 
     width: 1000000px; //Infinity
