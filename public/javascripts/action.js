@@ -218,21 +218,22 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         if(state.currentPath) {
           var overlap = $("<md-content>").addClass("md-default-theme").addClass("md-hue-1").addClass("history-overlap");
 
+          bodyScope.contentUpdated = function() {
+            overlap.removeClass("active");
+            $timeout(function() {
+              overlap.remove();
+            },200);
+          }
+
           $timeout(function() {
             bodyScope.contentPath = state.currentPath;
-            bodyScope.contentUpdated = function() {
-              overlap.removeClass("active");
-              $timeout(function() {
-                overlap.remove();
-              },200);
-            }
           },200);
 
           overlap.appendTo(".displayFrame");
 
           $timeout(function() {
             overlap.addClass("active");
-          },10);
+          },0);
         }
         if(state.currentTitle) bodyScope.pageTitle = state.currentTitle;
         bodyScope.$apply();
