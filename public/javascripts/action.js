@@ -54,7 +54,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
     name: "刘晓义",
     projects: [
       {
-        name: "THSITLab",
+        name: "THSCSLab-Home",
         url: "lab",
         logo: "school"
       },
