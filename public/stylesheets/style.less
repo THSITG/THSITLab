@@ -266,10 +266,26 @@ a {
         font-size: 96px;
       }
       .slider-item-content {
-        padding: 0 16px;
-        line-height: 16px;
-        font-size: 16px;
-        font-weight: 600;
+        margin: 0 16px;
+        line-height: 18px;
+        font-size: 14px;
+        font-weight: 500;
+
+        overflow: hidden;
+        white-space: nowrap;
+
+        position: relative;
+
+        .line-end {
+          height: 100%;
+          width: 42px;
+
+          position: absolute;
+          right: 0;
+          top: 0;
+
+          background: linear-gradient(90deg, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+        }
       }
     }
   }
@@ -360,4 +376,10 @@ md-card.expandable {
     bottom: 0px;
     padding: 17px 0;
   }
+}
+
+/* Miscellaneous styles */
+.project-owner {
+  color: rgba(0,0,0,54%);
+  font-size: 12px;
 }
