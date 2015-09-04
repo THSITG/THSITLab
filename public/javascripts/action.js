@@ -1,5 +1,6 @@
 var app = angular.module("THSITLab", [
-    'ngMaterial'
+    'ngMaterial',
+    'ngMessages'
 ]).config(function($mdThemingProvider, $mdIconProvider) {
   $mdThemingProvider
     .theme('default')
@@ -19,7 +20,7 @@ var app = angular.module("THSITLab", [
     .icon('lab:logo', '/icons/logo.svg');
 });
 
-app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
+app.controller('AppCtrl', ['$scope', '$timeout', '$http', '$mdSidenav', '$mdDialog', function($scope,$timeout,$http,$mdSidenav,$mdDialog) {
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId)
       .toggle()
@@ -34,37 +35,9 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
     }
   };
 
-  $scope.userForm = function(e) {
-    $mdDialog.show({
-      controller: userFormController,
-      templateUrl: '/tmpl/static/user_form.tmpl.html',
-      targetEvent: e
-    }).then(function(answer) {
-      //TODO: Login logic
-    }, function() {
-      // Login Canceled
-    });
-  };
-}).controller("NavMain", function($scope,$timeout,$mdSidenav) {
-  //TODO: move to app scope
-  $scope.user = {
-    featuredImgUrl: "/images/test-background.jpg",
-    avatarUrl: "/images/test-avatar.jpg",
-    email: "circuitcoder0@gmail.com",
-    name: "刘晓义",
-    projects: [
-      {
-        name: "THSCSLab-Home",
-        url: "lab",
-        logo: "school"
-      },
-      {
-        name: "Optime",
-        url: "optime",
-        logo: "timer"
-      }
-    ]
-  };
+  $scope.loggedIn = false;
+
+  $scope.user = null;
 
   $scope.openProject = function(url) {
     console.log("pretend to open: "+url);
@@ -82,14 +55,35 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
     console.log("pretend to open the about dialog");
   }
 
-  $scope.close = function() {
-    $mdSidenav('main')
-      .close()
-      .then(function() {
-        console.log('Main sidebar closed');
+  var doLogin = function(credential, callback) {
+    $http.post('/user/login', credential).
+      success(function(data, status, headers, config) {
+        callback(data);
       });
   }
-}).directive("expandable", ['$http','$compile', '$timeout', function($http,$compile, $timeout) {
+
+  var doRegister = function(credential, callback) {
+    $http.post('/user/register', credential).
+      success(function(data, status, headers, config) {
+        callback(data);
+      })
+  }
+
+  $scope.userForm = function(e) {
+    $mdDialog.show({
+      clickOutsideToClode: true,
+      controller: userFormController,
+      templateUrl: '/tmpl/static/user_form.tmpl.html',
+      targetEvent: e,
+      locals: {doLogin: doLogin, doRegister: doRegister}
+    }).then(function(user) {
+      console.log(user);
+      $scope.user = user;
+      $scope.loggedIn = true;
+      $mdSidenav("main").open();
+    }, function() {});
+  };
+}]).directive("expandable", ['$http','$compile', '$timeout', function($http,$compile, $timeout) {
   return {
     restrict: 'C',
     link: function(scope,element,attr) {
@@ -158,7 +152,6 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
           var targetHeight = $(".displayFrame").height();
           var targetWidth = $(".displayFrame").width();
           var targetOffset = $(".displayFrame").offset();
-          console.log(targetOffset);
 
           var $overlap = $(".overlap-card");
           $overlap.addClass("finished");
@@ -277,7 +270,6 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
             currentTitle: "主页"
           };
         }
-        console.log(state);
         var bodyScope = angular.element("body").scope();
         if(state.currentPath) {
           var overlap = $("<md-content>").addClass("md-default-theme").addClass("md-hue-1").addClass("history-overlap");
@@ -306,17 +298,47 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
   };
 }]);
 
-function userFormController($scope, $mdDialog) {
-  $scope.hide = function() {
-    $mdDialog.hide();
-  };
-
+function userFormController($scope, $mdDialog, doLogin, doRegister) {
   $scope.cancel = function() {
     $mdDialog.cancel();
   };
-  $scope.answer = function(answer) {
-    $mdDialog.hide(answer);
-  };
+
+  $scope.proceed = function() {
+    // Check if any field is empty
+    // TODO: link to required event
+    var continueFlag = true;
+    if(!$scope.user.name || $scope.user.name == "") {
+      continueFlag = false;
+      $scope.error.name = true;
+      $scope.error.map["empty-name"]=true;
+    }
+
+    if(!$scope.user.passwd || $scope.user.napasswd == "") {
+      continueFlag = false;
+      $scope.error.passwd = true;
+      $scope.error.map["empty-passwd"]=true;
+    }
+
+    if(!continueFlag) return;
+
+    if($scope.isRegister) {
+      doRegister($scope.user, function(data) {
+        if(data.success) {
+          $mdDialog.hide(data.user);
+        } else {
+          $scope.error = data.error;
+        }
+      });
+    } else {
+      doLogin($scope.user, function(data) {
+        if(data.success) {
+          $mdDialog.hide(data.user);
+        } else {
+          $scope.error = data.error;
+        }
+      });
+    }
+  }
 
   $scope.state = "登陆";
   $scope.isRegister = false;
@@ -330,4 +352,14 @@ function userFormController($scope, $mdDialog) {
     name: "",
     passwd: ""
   };
+
+  $scope.error = {
+    name: false,
+    passwd: false,
+    map: {
+      "empty-name": false,
+      "empty-passwd": false,
+      "invalid-credentials": false
+    }
+  }
 }

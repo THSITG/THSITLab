@@ -25,7 +25,8 @@
         </div>
       </md-toolbar>
       
-      <md-content ng-controller="NavMain">
+      <!-- For logged in sessions -->
+      <md-content ng-show="loggedIn">
         <div class="user-section ratio ratio-16-9">
           <div class="fade-img user-background ratio-content" style="background-image: url('{{user.featuredImgUrl}}');"></div>
           <div class="image-scrim-bottom dark ratio-content">
@@ -57,6 +58,20 @@
           </md-list-item>
         </md-list>
       </md-content>
+
+      <!-- For logged in sessions -->
+      <md-content ng-show="!loggedIn">
+        <md-list>
+          <!-- TODO: guest avatar & background -->
+          <md-list-item ng-click="userForm($event)">
+            亲爱的，请先登录
+          </md-list-item>
+          <md-list-item ng-click="openAbout()">
+            <md-icon md-font-library="material-icons">announcement</md-icon>
+            <p>About</p>
+          </md-list-item>
+        </md-list>
+      </md-content>
     </md-sidenav>
 
     <md-content layout="column" flex layout-fill md-swipe-right="swipeRight($event)" class="md-primary md-hue-1 displayFrame">
@@ -69,7 +84,7 @@
 
           <span flex></span>
 
-          <md-button class="md-raised md-accent md-hue-2" ng-click="userForm($event)">登陆</md-button>
+          <md-button ng-show="!loggedIn" class="md-raised md-accent md-hue-2" ng-click="userForm($event)">登陆</md-button>
         </div>
       </md-toolbar>
 

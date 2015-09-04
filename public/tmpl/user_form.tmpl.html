@@ -5,7 +5,7 @@
         {{state}}
       </span>
       <span flex></span>
-      <md-button ng-click="answer('cancel')" class="lab-dialog-close md-icon-button">
+      <md-button ng-click="cancel()" class="lab-dialog-close md-icon-button">
         <md-icon md-font-library="material-icons md-32 md-light">close</md-icon>
       </md-button>
     </div>
@@ -17,18 +17,25 @@
         </md-list-item>
       </md-list>
 
-      <md-input-container>
+      <md-input-container md-is-error="error.name">
         <label>用户名</label>
         <input ng-model="user.name">
+        <div ng-messages="error.map">
+          <div ng-message="empty-name" type="text">请输入用户名，么么哒~</div>
+        </div>
       </md-input-container>
-      <md-input-container>
+      <md-input-container md-is-error="error.passwd">
         <label>密码</label>
-        <input ng-model="user.passwd">
+        <input ng-model="user.passwd" type="password">
+        <div ng-messages="error.map">
+          <div ng-message="empty-passwd">请输入密码，么么哒~</div>
+          <div ng-message="invalid-credentials">啊咧，验证失败...</div>
+        </div>
       </md-input-container>
     </md-dialog-content>
     <div class="md-actions" layout="row">
-      <md-button type="submit" ng-click="answer('action')" class="md-primary md-raised">{{state}}</md-button>
-      <md-button ng-click="answer('cancel')" class="md-raised">取消</md-button>
+      <md-button type="submit" ng-click="proceed()" class="md-primary md-raised">{{state}}</md-button>
+      <md-button class="md-raised" ng-click="cancel()">取消</md-button>
     </div>
   </form>
 </md-dialog>

@@ -37,4 +37,8 @@ router.post('/:id/cards/:id', function(req, res, next) {
 router.delete('/:id/cards/:cid', function(req, res, next) {
 });
 
+/* Public projects */
+router.get('/public/projects', function(req, res, next) {
+});
+
 module.exports = router;
