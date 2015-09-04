@@ -111,7 +111,7 @@ app.controller('AppCtrl', ['$scope', '$timeout', '$http', '$mdSidenav', '$mdDial
         var $newCard = $("<md-card>").addClass("expandable").addClass("overlap-card");
         $("<md-content>").addClass("md-hue-1").addClass("md-default-theme").addClass("expanding-mask").appendTo($newCard);
 
-        $newCard.appendTo(".displayFrame");
+        $newCard.appendTo(".display-frame");
 
         $newCard.css("width",cardWidth+"px");
         $newCard.css("height",cardHeight+"px");
@@ -126,13 +126,13 @@ app.controller('AppCtrl', ['$scope', '$timeout', '$http', '$mdSidenav', '$mdDial
         $card.addClass("md-whiteframe-z4");
 
         $timeout(function() {
-          var targetHeight = $(".displayFrame").height();
-          var targetWidth = $(".displayFrame").width();
+          var targetHeight = $(".display-frame").height();
+          var targetWidth = $(".display-frame").width();
           var heightRatio = targetHeight/cardHeight;
           var widthRatio = targetWidth/cardWidth;
 
           var offset = $newCard.offset();
-          var targetOffset = $(".displayFrame").offset();
+          var targetOffset = $(".display-frame").offset();
 
           $card.addClass("hidden");
           $newCard.removeClass("no-shadow");
@@ -149,9 +149,9 @@ app.controller('AppCtrl', ['$scope', '$timeout', '$http', '$mdSidenav', '$mdDial
            * So I'm reseting the transform here and makes the overlap fills the page
            */
 
-          var targetHeight = $(".displayFrame").height();
-          var targetWidth = $(".displayFrame").width();
-          var targetOffset = $(".displayFrame").offset();
+          var targetHeight = $(".display-frame").height();
+          var targetWidth = $(".display-frame").width();
+          var targetOffset = $(".display-frame").offset();
 
           var $overlap = $(".overlap-card");
           $overlap.addClass("finished");
@@ -285,7 +285,7 @@ app.controller('AppCtrl', ['$scope', '$timeout', '$http', '$mdSidenav', '$mdDial
             bodyScope.contentPath = state.currentPath;
           },200);
 
-          overlap.appendTo(".displayFrame");
+          overlap.appendTo(".display-frame");
 
           $timeout(function() {
             overlap.addClass("active");
