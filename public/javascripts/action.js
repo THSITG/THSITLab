@@ -114,9 +114,8 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         var cardWidth = $card.width();
         var cardHeight = $card.height();
 
-        console.log(cardOffset);
-
         var $newCard = $("<md-card>").addClass("expandable").addClass("overlap-card");
+        $("<md-content>").addClass("md-hue-1").addClass("md-default-theme").addClass("expanding-mask").appendTo($newCard);
 
         $newCard.appendTo(".displayFrame");
 
@@ -125,6 +124,7 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         $newCard.css("top",cardOffset.top);
         $newCard.css("left",cardOffset.left);
         $newCard.addClass("expanding").addClass("md-default-theme");
+        $newCard.addClass("no-shadow");
 
         window.getComputedStyle($newCard[0]).opacity; //Get the style computed
         $newCard.css("opacity", "1");
@@ -132,18 +132,46 @@ app.controller('AppCtrl', function($scope,$timeout,$mdSidenav,$mdDialog) {
         $card.addClass("md-whiteframe-z4");
 
         $timeout(function() {
+          var targetHeight = $(".displayFrame").height();
+          var targetWidth = $(".displayFrame").width();
+          var heightRatio = targetHeight/cardHeight;
+          var widthRatio = targetWidth/cardWidth;
+
+          var offset = $newCard.offset();
+          var targetOffset = $(".displayFrame").offset();
+
           $card.addClass("hidden");
-          $newCard.addClass("md-hue-1");
+          $newCard.removeClass("no-shadow");
+          $newCard.addClass("expanding-colored");
           $newCard.addClass("md-whiteframe-z4");
-          $newCard.css("width","100%");
-          $newCard.css("height","100%");
-          $newCard.css("top","0");
-          $newCard.css("left","0");
-          
+          $newCard.css("transform", "matrix(" + widthRatio + ", 0, 0, " + heightRatio + ", " + ( - offset.left + targetOffset.left ) + ", " + ( - offset.top + targetOffset.top ) + ")");
         },500);
 
         $timeout(function() {
+          /*
+           * FIXME:
+           * If the overlap card keeps the transform
+           * Then it takes extraordinaty time to paint the page ( like 800ms )
+           * So I'm reseting the transform here and makes the overlap fills the page
+           */
+
+          var targetHeight = $(".displayFrame").height();
+          var targetWidth = $(".displayFrame").width();
+          var targetOffset = $(".displayFrame").offset();
+          console.log(targetOffset);
+
+          var $overlap = $(".overlap-card");
+          $overlap.addClass("finished");
+          $overlap.css("transform", "matrix(1, 0, 0, 1, 0, 0)");
+          $overlap.height(targetHeight);
+          $overlap.width(targetWidth);
+
+          // Don't use jQuery.offset(coordinate) here, which sets the offset relative to its parent element ( and is in conflict with the document, I don't know why )
+          $overlap.css("top", targetOffset.top + "px");
+          $overlap.css("left", targetOffset.left + "px");
+
           var bodyScope=angular.element("body").scope();
+
           bodyScope.pageTitle = attr.newTitle;
           bodyScope.contentPath = attr.newContent;
           bodyScope.contentUpdated = function() {callback(attr.newContent,attr.newTitle)};

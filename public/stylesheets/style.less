@@ -314,22 +314,60 @@ a {
 md-card.expandable {
   cursor: pointer;
   transition: box-shadow 0.5s ease-in-out;
+  transform-origin: left top;
+
+  & > .expanding-mask {
+    display: none;
+    transition: opacity;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+  }
 
   &.hidden {
     transition: none;
     box-shadow: none;
   }
 
-  &.expanding{
+  &.expanding {
     margin: 0;
     position: fixed;
     cursor: default;
-    transition-property: top, left, height, width, opacity, background-color;
-    transition-duration: 0.5s, 0.5s, 0.5s, 0.5s, 0.5s, 0.15s;
-    transition-delay: 0s, 0s, 0s, 0s, 0s, 0.35s;
-    transition-timing-function: ease-in, ease-in, ease-in, ease-in, ease-out, ease-in-out;
+    transition-property: transform, opacity;
+    transition-duration: 0.5s, 0.5s;
+    transition-delay: 0s, 0s;
+    transition-timing-function: ease-in, ease-out;
 
     opacity: 0;
+    transform: matrix(1,0,0,1,0,0);
+
+    &.finished {
+      transition-property: opacity;
+      transition-duration: 0.5s;
+      transition-delay: 0s;
+      transition-timing-function: ease-in;
+    }
+
+    & > .expanding-mask {
+      opacity: 0;
+      display: block;
+      transition-property: opacity;
+      transition-duration: 0.15s;
+      transition-delay: 0.35s;
+      transition-timing-function: ease-in-out;
+    }
+
+    &.expanding-colored > .expanding-mask {
+      opacity: 1;
+    }
+  }
+
+  &.no-shadow {
+    box-shadow: none;
   }
 }
 
